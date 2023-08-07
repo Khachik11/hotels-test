@@ -116,6 +116,18 @@
               <template v-if="filteredHotelsData.length">
                 <HotelComponent class="mb-5" v-for="(data, index) in filteredHotelsData" :hotel="data" :key="index"/>
               </template>
+              <template v-else>
+                <div class="flex justify-center flex-col items-center">
+                  <p class="text-2xl">По данным параметром ничего не найдено</p>
+                  <p class="text-sm">Попробуйте изменить параметры фильтрации и вернуться общий каталог</p>
+                  <div
+                      class=" w-2/5 cursor-pointer bg-violet-200 mt-6 flex w-full border border-gray-200 justify-center rounded-md px-3 py-2 text-sm font-semibold leading-6 text-violet-500 shadow-sm hover:bg-violet-100 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-violet-200"
+                      @click="clearFilter"
+                  >
+                    <span>&#9747; </span> Очистить Фильтр
+                  </div>
+                </div>
+              </template>
             </div>
           </div>
         </section>
