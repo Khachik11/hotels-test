@@ -113,7 +113,7 @@
 
             <!-- Product grid -->
             <div class="lg:col-span-3">
-              <template v-if="filteredHotelsData.length">
+              <template v-if="filteredHotelsData?.length">
                 <HotelComponent class="mb-5" v-for="(data, index) in filteredHotelsData" :hotel="data" :key="index"/>
               </template>
               <template v-else>
@@ -182,6 +182,7 @@ export default {
     const showMobileFilter = ref<boolean>(true);
     const rerenderSlider = ref<boolean>(true);
     const minMaxPrice = ref<any>({});
+    const filteredHotelsData = ref<Hotel[]>();
 
 
     let filters: Filters = reactive({
@@ -189,7 +190,7 @@ export default {
       type: [],
       price: {
         min: 0,
-        max: 0
+        max: 1000000000
       },
       numberOfReviews: 0,
       stars: [],
@@ -199,7 +200,8 @@ export default {
       try {
         const res = await axios.get(`/src/data/hotels.json`);
         hotels.value = res.data.hotels as Hotel[];
-        buildFilterData()
+        buildFilterData();
+        filteredHotelsData.value = filterHotels();
       } catch (error) {
         console.log(error);
       }
@@ -219,7 +221,6 @@ export default {
       );
     }
 
-    const filteredHotelsData = ref<Hotel[]>();
     const filterHotels = () => {
       return hotels.value.filter((hotel) => {
         return (
@@ -232,10 +233,10 @@ export default {
         );
       });
     };
-
-    watch(filters, () => {
-      filteredHotelsData.value = filterHotels();
-    }, { immediate: true })
+    // если вы хотите чтобы фильтрация работала когда было изменено параметры фильтра то раскоментируйте эту часть
+    // watch(filters, () => {
+    //   filteredHotelsData.value = filterHotels();
+    // }, { immediate: true })
 
     const changeCountries = (countries) => {
       filters.countries = countries

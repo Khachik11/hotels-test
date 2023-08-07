@@ -68,8 +68,6 @@ export default {
       emit('changeData', selectedData.value);
     }
 
-    console.log(checkboxData)
-
     return {
       checkboxData,
       showCheckboxList,
